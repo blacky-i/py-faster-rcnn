@@ -1,0 +1,12 @@
+*.json
+*.jpg
+*.pyc
+*.caffemodel
+*.tgz
+.ipynb_checkpoints
+lib/build
+lib/pycocotools/_mask.c
+lib/pycocotools/_mask.so
+output/
+data/fashion2017/
+fashion_weights/
