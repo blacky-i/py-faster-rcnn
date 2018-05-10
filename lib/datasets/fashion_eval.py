@@ -88,7 +88,7 @@ def fashion_eval(detpath,
     # assumes annotations are in annopath.format(imagename)
     # assumes imagesetfile is a text file with each line an image name
     # cachedir caches the annotations in a pickle file
-
+    
     # first load gt
     if not os.path.isdir(cachedir):
         os.mkdir(cachedir)
@@ -131,7 +131,7 @@ def fashion_eval(detpath,
     detfile = detpath.format(classname)
     with open(detfile, 'r') as f:
         lines = f.readlines()
-
+	print(lines)
     splitlines = [x.strip().split(' ') for x in lines]
     image_ids = [x[0] for x in splitlines]
     confidence = np.array([float(x[1]) for x in splitlines])

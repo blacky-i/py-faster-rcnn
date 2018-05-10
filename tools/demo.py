@@ -25,16 +25,10 @@ import caffe, os, sys, cv2
 import argparse
 
 CLASSES = ('__background__',
-           'aeroplane', 'bicycle', 'bird', 'boat',
-           'bottle', 'bus', 'car', 'cat', 'chair',
-           'cow', 'diningtable', 'dog', 'horse',
-           'motorbike', 'person', 'pottedplant',
-           'sheep', 'sofa', 'train', 'tvmonitor')
+           'coat','shirt','tie','collar')
 
-NETS = {'vgg16': ('VGG16',
-                  'VGG16_faster_rcnn_final.caffemodel'),
-        'zf': ('ZF',
-                  'ZF_faster_rcnn_final.caffemodel')}
+NETS = { 'vgg_cnn_m_1024': ('VGG_CNN_M_1024',
+                  'vgg_cnn_m_1024_fast_rcnn_stage1_iter_40000.caffemodel')}
 
 
 def vis_detections(im, class_name, dets, thresh=0.5):
@@ -95,7 +89,7 @@ def demo(net, image_name):
                           cls_scores[:, np.newaxis])).astype(np.float32)
         keep = nms(dets, NMS_THRESH)
         dets = dets[keep, :]
-	print(cls,dets[0,0])
+	print(cls,dets)
 	#vis_detections(im, cls, dets, thresh=CONF_THRESH)
 
 def parse_args():
@@ -118,6 +112,7 @@ if __name__ == '__main__':
 
     args = parse_args()
 
+    print(cfg.MODELS_DIR,cfg.DATA_DIR)
     prototxt = os.path.join(cfg.MODELS_DIR, NETS[args.demo_net][0],
                             'faster_rcnn_alt_opt', 'faster_rcnn_test.pt')
     caffemodel = os.path.join(cfg.DATA_DIR, 'faster_rcnn_models',

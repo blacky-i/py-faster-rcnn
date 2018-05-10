@@ -4,6 +4,9 @@
 *.caffemodel
 *.tgz
 .ipynb_checkpoints
+logs/
+tests/
+saved_caffe_weights_fashion/
 lib/build
 lib/pycocotools/_mask.c
 lib/pycocotools/_mask.so

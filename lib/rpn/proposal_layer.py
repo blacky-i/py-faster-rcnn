@@ -72,8 +72,11 @@ class ProposalLayer(caffe.Layer):
         scores = bottom[0].data[:, self._num_anchors:, :, :]
         bbox_deltas = bottom[1].data
         im_info = bottom[2].data[0, :]
-
+	
         if DEBUG:
+            print(bbox_deltas)
+	    bbox_deltas[np.isnan(bbox_deltas)]=0
+	    print(bbox_deltas)
             print 'im_size: ({}, {})'.format(im_info[0], im_info[1])
             print 'scale: {}'.format(im_info[2])
 
@@ -110,7 +113,6 @@ class ProposalLayer(caffe.Layer):
         # reshape to (1 * H * W * A, 4) where rows are ordered by (h, w, a)
         # in slowest to fastest order
         bbox_deltas = bbox_deltas.transpose((0, 2, 3, 1)).reshape((-1, 4))
-
         # Same story for the scores:
         #
         # scores are (1, A, H, W) format
@@ -120,7 +122,6 @@ class ProposalLayer(caffe.Layer):
 
         # Convert anchors into proposals via bbox transformations
         proposals = bbox_transform_inv(anchors, bbox_deltas)
-
         # 2. clip predicted boxes to image
         proposals = clip_boxes(proposals, im_info[:2])
 
@@ -172,5 +173,6 @@ def _filter_boxes(boxes, min_size):
     """Remove all boxes with any side smaller than min_size."""
     ws = boxes[:, 2] - boxes[:, 0] + 1
     hs = boxes[:, 3] - boxes[:, 1] + 1
+    #print(ws,hs)
     keep = np.where((ws >= min_size) & (hs >= min_size))[0]
     return keep

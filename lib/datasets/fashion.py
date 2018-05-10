@@ -36,6 +36,10 @@ class fashion(imdb):
         self._image_index = self._load_image_set_index()
         self._salt = str(uuid.uuid4())
         self._comp_id = 'comp4'
+	print image_set
+	if image_set=='800':
+	    self.data_path = os.path.join(cfg.DATA_DIR,'fashion'+self._year+'_800')
+	    self._image_set='train'
         #load fashion
                 # PASCAL specific config options
         self.config = {'cleanup'     : True,
@@ -188,11 +192,17 @@ class fashion(imdb):
 
         for ix, obj in enumerate(objs):
             # Make pixel indexes 0-based
-            x1 = float(obj["x_left"])
-            y1 = float(obj["y_left"])
-            x2 = float(obj["x_right"])
-            y2 = float(obj["y_right"])
+	    x1 = 0
+     	    y1 = 0
+            if(float(obj["x_left"])>0):
+                x1 = float(obj["x_left"]) - 1
+            if(float(obj["y_left"])>0):
+	        y1 = float(obj["y_left"]) - 1
+
+            x2 = float(obj["x_right"]) - 1
+            y2 = float(obj["y_right"]) - 1
             cls = self._class_to_ind[str(obj["className"])]
+	    print(cls,obj["className"])
             boxes[ix, :] = [x1, y1, x2, y2]
             gt_classes[ix] = cls
             overlaps[ix, cls] = 1.0
@@ -289,7 +299,7 @@ class fashion(imdb):
                 if cls == '__background__':
                     continue
                 filename = self._get_voc_results_file_template().format(cls)
-                os.remove(filename)
+#                os.remove(filename)
 
     def competition_mode(self, on):
         if on:

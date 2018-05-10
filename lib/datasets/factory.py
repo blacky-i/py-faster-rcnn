@@ -34,7 +34,7 @@ for year in ['2015']:
 
 #Fashion edits
 for year in ['2017']:
-    for split in ['train', 'test']:
+    for split in ['train', 'test','val','trainval','800']:
         name = 'fashion-{}_{}'.format(year, split)
         __sets[name] = (lambda split=split, year=year: fashion(split, year))
 

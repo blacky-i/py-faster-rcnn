@@ -3,8 +3,8 @@ input: "data"
 input_shape {
   dim: 1
   dim: 3
-  dim: 224
-  dim: 224
+  dim: 600
+  dim: 1000
 }
 input: "im_info"
 input_shape {
@@ -310,7 +310,7 @@ layer {
   python_param {
     module: 'rpn.proposal_layer'
     layer: 'ProposalLayer'
-    param_str: "'feat_stride': 16"
+    param_str: "'feat_stride': 20"
   }
 }
 
@@ -406,7 +406,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 4
+    num_output: 5
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -431,7 +431,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 16
+    num_output: 20
     weight_filler {
       type: "gaussian"
       std: 0.001

@@ -16,6 +16,7 @@ unset(NUMPY_VERSION)
 unset(NUMPY_INCLUDE_DIR)
 
 if(PYTHONINTERP_FOUND)
+  message(${PYTHON_EXECUTABLE})
   execute_process(COMMAND "${PYTHON_EXECUTABLE}" "-c"
     "import numpy as n; print(n.__version__); print(n.get_include());"
     RESULT_VARIABLE __result
@@ -27,7 +28,9 @@ if(PYTHONINTERP_FOUND)
     string(REGEX REPLACE "\r?\n" ";"    __values ${__values})
     list(GET __values 0 NUMPY_VERSION)
     list(GET __values 1 NUMPY_INCLUDE_DIR)
-
+#  set(NUMPY_VERSION 1.13.1)
+#  set(NUMPY_INCLUDE_DIR /usr/lib64/python2.7/site-packages/numpy/core/include)
+  set(NUMPY_FOUND TRUE)
     string(REGEX MATCH "^([0-9])+\\.([0-9])+\\.([0-9])+" __ver_check "${NUMPY_VERSION}")
     if(NOT "${__ver_check}" STREQUAL "")
       set(NUMPY_VERSION_MAJOR ${CMAKE_MATCH_1})
